@@ -31,7 +31,9 @@ Page({
     }
     // 填充实际日期
     for (let i = 1; i <= daysInMonth; i++) {
-      days.push({ date: i, selected: false });
+      // 检查之前的选中状态
+      const previouslySelected = this.data.days.find(day => day.date === i) || { selected: false };
+      days.push({ date: i, selected: previouslySelected.selected });
     }
     this.setData({ days });
     this.updateTotalDays();
