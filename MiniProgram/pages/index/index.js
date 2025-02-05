@@ -62,10 +62,31 @@ Page({
 
   addMark: function() {
     if (this.data.currentInput) {
-      this.setData({
-        marks: [...this.data.marks, this.data.currentInput],
-        currentInput: ''
-      });
+      const selectedDate = this.data.days.find(day => day.selected);
+      if (selectedDate) {
+        this.setData({
+          marks: [...this.data.marks, { date: selectedDate.date, text: this.data.currentInput }],
+          currentInput: ''
+        });
+      }
     }
+  },
+
+  prevMonth: function() {
+    const date = new Date(this.data.currentDate);
+    date.setMonth(date.getMonth() - 1); // 减去一个月
+    this.setData({
+      currentDate: date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }),
+    });
+    this.initializeCalendar(); // 重新初始化日历
+  },
+
+  nextMonth: function() {
+    const date = new Date(this.data.currentDate);
+    date.setMonth(date.getMonth() + 1); // 加上一个月
+    this.setData({
+      currentDate: date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }),
+    });
+    this.initializeCalendar(); // 重新初始化日历
   }
 });

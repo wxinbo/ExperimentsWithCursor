@@ -81,12 +81,15 @@ page {
 }
 .header {
   display: flex;
-  flex-direction: column; /* 垂直排列 */
+  align-items: center; /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
   margin-bottom: 20px;
 }
 .current-date {
   font-size: 18px;
-  /*font-weight: bold;*/
+  /*font-weight: bold;*/ /* 可选：取消加粗 */
+  width: 100px; /* 设置宽度以保持一致 */
+  text-align: center; /* 水平居中 */
 }
 .total-days {
   font-size: 16px;
@@ -102,4 +105,15 @@ page {
 }
 .spacer {
   height: 10px; /* 设置空行的高度 */
+}
+.marks-preview {
+  margin-top: 5px; /* 上边距 */
+  text-align: center; /* 居中显示 */
+}
+.arrow {
+  cursor: pointer; /* 鼠标指针 */
+  font-size: 24px; /* 字体大小 */
+  margin: 0 10px; /* 左右间距 */
+  width: 40px; /* 设置宽度 */
+  text-align: center; /* 水平居中 */
 }

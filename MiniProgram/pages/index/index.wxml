@@ -3,12 +3,11 @@
 <scroll-view class="scrollarea" scroll-y type="list">
   <view class="container">
     <view class="header">
-    <view class="total-days">本月打卡总天数: {{totalDays}}</view>
-    <view class="spacer"></view>
-    <view class="spacer"></view>
-    <view class="current-date">{{currentDate}}</view>
-      
-      
+      <view class="total-days">本月打卡总天数: {{totalDays}}</view>
+      <view class="spacer"></view>
+      <view class="arrow" bindtap="prevMonth">←</view>
+      <view class="current-date">{{currentDate}}</view>
+      <view class="arrow" bindtap="nextMonth">→</view>
     </view>
     <view class="calendar">
       <view class="weekdays">
@@ -19,6 +18,13 @@
       <block wx:for="{{days}}" wx:key="index">
         <view class="day {{item.selected ? 'selected' : ''}} {{item.date === '' ? 'transparent' : ''}}" bindtap="selectDay" data-date="{{item.date}}">
           {{item.date}}
+        </view>
+        <view class="marks-preview">
+          <block wx:for="{{marks}}" wx:key="index">
+            <block wx:if="{{item.date === item.date}}">
+              <text>{{item.text}}</text>
+            </block>
+          </block>
         </view>
         <block wx:if="{{(index + 1) % 7 === 0}}">
           <!-- 每7天换行 -->
