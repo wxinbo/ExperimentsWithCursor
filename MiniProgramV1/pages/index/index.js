@@ -3,13 +3,19 @@ Page({
   data: {
     calendar: [], // 存储日历数据
     totalDays: 0, // 当前月份运动总天数
-    currentDate: ''
+    currentDate: '',
+    totalDaysInYear: 365 // 假设一年有365天
   },
 
   onLoad: function() {
     this.initCalendar();
     this.setCurrentDate(); // 设置当前日期
+    this.calculateTotalDays(); // 更新总天数
   },
+
+  round: function(value, decimals) {
+    return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
+  },    
 
   initCalendar: function() {
     const currentMonth = new Date().getMonth();
@@ -31,11 +37,27 @@ Page({
     this.setData({ calendar });
   },
 
+  goToLastMonth: function() {
+    const date = new Date(this.data.currentDate);
+    date.setMonth(date.getMonth() - 1); // 切换到上个月
+    this.setCurrentDate(date);
+    this.initCalendar(); // 重新初始化日历
+  },
+  
+  goToNextMonth: function() {
+    console.log("切换到下个月");
+    const date = new Date(this.data.currentDate);
+    date.setMonth(date.getMonth() + 1); // 切换到下个月
+    this.setCurrentDate(date);
+    this.initCalendar(); // 重新初始化日历
+  },
+
   setCurrentDate: function() {
     const date = new Date();
     const formattedDate = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
     this.setData({ currentDate: formattedDate });
   },
+  
 
   toggleCheck: function(e) {
     const day = e.currentTarget.dataset.day;
