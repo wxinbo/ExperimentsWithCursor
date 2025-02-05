@@ -13,8 +13,12 @@ Page({
     this.setCurrentDate();
   },
 
-  initializeCalendar: function() {
-    const date = new Date();
+  initializeCalendar: function(date) {
+    // 如果 date 为空，则使用当前日期
+    if (!date) {
+      date = new Date();
+    }
+
     const year = date.getFullYear();
     const month = date.getMonth(); // 0-11
     const daysInMonth = new Date(year, month + 1, 0).getDate(); // 获取当前月份的天数
@@ -73,20 +77,26 @@ Page({
   },
 
   prevMonth: function() {
-    const date = new Date(this.data.currentDate);
-    date.setMonth(date.getMonth() - 1); // 减去一个月
-    this.setData({
-      currentDate: date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }),
-    });
-    this.initializeCalendar(); // 重新初始化日历
+    const dateParts = this.data.currentDate.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+    if (dateParts) {
+      const date = new Date(dateParts[1], dateParts[2] - 1, dateParts[3]); // 月份从0开始
+      date.setMonth(date.getMonth() - 1); // 减去一个月
+      this.setData({
+        currentDate: date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }),
+      });
+      this.initializeCalendar(date); // 重新初始化日历
+    }
   },
 
   nextMonth: function() {
-    const date = new Date(this.data.currentDate);
-    date.setMonth(date.getMonth() + 1); // 加上一个月
-    this.setData({
-      currentDate: date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }),
-    });
-    this.initializeCalendar(); // 重新初始化日历
+    const dateParts = this.data.currentDate.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+    if (dateParts) {
+      const date = new Date(dateParts[1], dateParts[2] - 1, dateParts[3]); // 月份从0开始
+      date.setMonth(date.getMonth() + 1); // 加上一个月
+      this.setData({
+        currentDate: date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }),
+      });
+      this.initializeCalendar(date); // 重新初始化日历
+    }
   }
 });
