@@ -1,0 +1,21 @@
+<!--index.wxml-->
+<navigation-bar title="Weixin" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    <view class="calendar">
+      <block wx:for="{{weeks}}" wx:key="index">
+        <view class="week">
+          <block wx:for="{{item}}" wx:key="index">
+            <view class="day" bindtap="toggleDay" data-date="{{item.date}}">
+              <text>{{item.day}}</text>
+              <view wx:if="{{item.checked}}" class="checked"></view>
+            </view>
+          </block>
+        </view>
+      </block>
+    </view>
+    <view class="summary">
+      <text>本月运动天数: {{totalCheckedDays}}</text>
+    </view>
+  </view>
+</scroll-view>
