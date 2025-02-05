@@ -1,7 +1,33 @@
 <!--index.wxml-->
-<navigation-bar title="Weixin" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<navigation-bar title="" back="{{false}}" color="black" background="#FFF"></navigation-bar>
 <scroll-view class="scrollarea" scroll-y type="list">
   <view class="container">
-    Weixin
+    <view>
+    <text>本月已打卡: {{totalDays}} 天</text> </view>
+    <view>
+      <text>{{currentDate}}</text>
+    </view>
+    <view class="calendar">
+      <view class="weekdays">
+        <text class="weekday">日</text>
+        <text class="weekday">一</text>
+        <text class="weekday">二</text>
+        <text class="weekday">三</text>
+        <text class="weekday">四</text>
+        <text class="weekday">五</text>
+        <text class="weekday">六</text>
+      </view>
+      <block wx:for="{{calendar}}" wx:key="day">
+        <view class="day" 
+              bindtap="{{item.isValid ? 'toggleCheck' : ''}}" 
+              data-day="{{item.day}}" 
+              style="background-color: {{item.isChecked ? '#10875c' : (item.isValid ? '#FFFFFF' : 'transparent')}}; border: {{item.isValid ? '1px solid #ccc' : '1px solid transparent'}};">
+          <text>{{item.day}}</text>
+        </view>
+        <block wx:if="{{(index + 1) % 7 === 0}}">
+          <view class="week-break"></view>
+        </block>
+      </block>
+    </view>
   </view>
 </scroll-view>
