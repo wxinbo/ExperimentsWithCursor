@@ -1,0 +1,37 @@
+<!--index.wxml-->
+<navigation-bar title="Weixin" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    <view class="header">
+    <view class="total-days">本月打卡总天数: {{totalDays}}</view>
+    <view class="spacer"></view>
+    <view class="spacer"></view>
+    <view class="current-date">{{currentDate}}</view>
+      
+      
+    </view>
+    <view class="calendar">
+      <view class="weekdays">
+        <block wx:for="{{['日', '一', '二', '三', '四', '五', '六']}}" wx:key="index">
+          <text class="weekday">{{item}}</text>
+        </block>
+      </view>
+      <block wx:for="{{days}}" wx:key="index">
+        <view class="day {{item.selected ? 'selected' : ''}} {{item.date === '' ? 'transparent' : ''}}" bindtap="selectDay" data-date="{{item.date}}">
+          {{item.date}}
+        </view>
+        <block wx:if="{{(index + 1) % 7 === 0}}">
+          <!-- 每7天换行 -->
+          <view class="clear"></view>
+        </block>
+      </block>
+    </view>
+    <input class="input" placeholder="添加标记" bindinput="onInput" />
+    <button class="add-button" bindtap="addMark">添加标记</button>
+    <view class="marks">
+      <block wx:for="{{marks}}" wx:key="index">
+        <text>{{item}}</text>
+      </block>
+    </view>
+  </view>
+</scroll-view>
