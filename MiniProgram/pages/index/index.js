@@ -7,7 +7,8 @@ Page({
     currentDate: '',
     totalDays: 0,
     previousDays: [],
-    allCheckedDays: 0
+    allCheckedDays: 0,
+    lastDays:[]
   },
 
   onLoad: function() {
@@ -54,8 +55,6 @@ Page({
     this.updateAllCheckedDays();
   },
 
-
-
   setCurrentDate: function() {
     const date = new Date();
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -77,6 +76,11 @@ Page({
     this.updateTotalDays();
     this.updatePreviousDays();
     this.updateAllCheckedDays();
+    this.updateLastDays();
+    console.log("lastDays");
+    console.log(this.data.lastDays);
+    console.log("marks");
+    console.log(this.data.marks);
   },
 
   updateAllCheckedDays: function() {
@@ -94,6 +98,10 @@ Page({
     this.setData({previousDays})
   },
 
+  updateLastDays: function() {
+    const lastSelectedDay = this.data.previousDays[this.data.previousDays.length - 1]; // Get the last selected day
+    this.setData({ lastDays: [lastSelectedDay] }); // Set lastDays to contain only the last selected day
+  },
   onInput: function(event) {
     this.setData({ currentInput: event.detail.value });
   },
@@ -101,9 +109,13 @@ Page({
 
 
   addMark: function() {
-    const selectedDate = this.data.days.find(day => day.selected); // Find the last selected date
+    const selectedDate = this.data.lastDays[0]; // Find the last selected date
     console.log("selectedDate");
     console.log(selectedDate);
+
+    const updatedMarks = this.data.marks;
+    console.log("updatedMarks");
+    console.log(updatedMarks);
     
     if (selectedDate) {
       wx.showModal({
@@ -116,15 +128,7 @@ Page({
             const inputContent = res.content; // Get the input content
             if (inputContent) {
               // Update the marks array
-              const updatedMarks = this.data.marks.map(mark => 
-                mark.date === selectedDate.date ? { ...mark, text: inputContent } : mark
-              );
-
-              // If no mark was found for the selected date, add a new mark
-              if (!updatedMarks.some(mark => mark.date === selectedDate.date)) {
-                updatedMarks.push({ date: selectedDate.date, text: inputContent }); // Add new mark for the selected date
-              }
-
+              updatedMarks.push({date: selectedDate.date, text: inputContent} )
               this.setData({
                 marks: updatedMarks // Update the marks array
               });
