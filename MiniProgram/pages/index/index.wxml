@@ -17,7 +17,7 @@
       </view>
       <block wx:for="{{days}}" wx:key="index">
         <view class="day {{item.selected ? 'selected' : ''}} {{item.date === '' ? 'transparent' : ''}}" bindtap="selectDay" data-date="{{item.date}}">
-          {{item.date}}
+          {{item.showDate}}
         </view>
         <view class="marks-preview">
           <block wx:for="{{marks}}" wx:key="index">

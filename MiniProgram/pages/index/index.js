@@ -5,7 +5,8 @@ Page({
     marks: [],
     currentInput: '',
     currentDate: '',
-    totalDays: 0
+    totalDays: 0,
+    previousDays: []
   },
 
   onLoad: function() {
@@ -13,31 +14,44 @@ Page({
     this.setCurrentDate();
   },
 
-  initializeCalendar: function(date) {
+  initializeCalendar: function(date, previousDays) {
     // 如果 date 为空，则使用当前日期
     if (!date) {
       date = new Date();
     }
 
+    if(!previousDays){
+      previousDays = this.data.previousDays;
+    }
+
     const year = date.getFullYear();
     const month = date.getMonth(); // 0-11
     const daysInMonth = new Date(year, month + 1, 0).getDate(); // 获取当前月份的天数
+
     const firstDay = new Date(year, month, 1).getDay(); // 获取当前月份第一天是星期几
 
     const days = [];
     // 填充空白
     for (let i = 0; i < firstDay; i++) {
-      days.push({ date: '', selected: false }); // 空白日期
+      days.push({ date: '', selected: false, showDate:'' }); // 空白日期
     }
     // 填充实际日期
     for (let i = 1; i <= daysInMonth; i++) {
+
+      const dateKey = `${year}-${(month + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`; // 生成 yyyy-MM-dd 格式的键
       // 检查之前的选中状态
-      const previouslySelected = this.data.days.find(day => day.date === i) || { selected: false };
-      days.push({ date: i, selected: previouslySelected.selected });
+      if(previousDays.find(day => day.date === dateKey)){
+        days.push({ date: dateKey, selected: true, showDate:i });
+      }
+      else{
+        days.push({ date: dateKey, selected: false, showDate:i });
+      }
     }
     this.setData({ days });
     this.updateTotalDays();
+    this.updatePreviousDays();
   },
+
 
   setCurrentDate: function() {
     const date = new Date();
@@ -50,21 +64,30 @@ Page({
     const days = this.data.days.map(day => {
       if (day.date === date) {
         day.selected = !day.selected;
+        this.data.previousDays.push(day);
+        console.log("previousDays");
+        console.log(this.data.previousDays);
       }
       return day;
     });
     this.setData({ days });
     this.updateTotalDays();
+    this.updatePreviousDays();
   },
+
 
   updateTotalDays: function() {
     const totalDays = this.data.days.filter(day => day.selected).length;
     this.setData({ totalDays });
   },
-
+  updatePreviousDays: function() {
+    const previousDays = this.data.previousDays;
+    this.setData({previousDays})
+  },
   onInput: function(event) {
     this.setData({ currentInput: event.detail.value });
   },
+
 
   addMark: function() {
     if (this.data.currentInput) {
@@ -86,7 +109,7 @@ Page({
       this.setData({
         currentDate: date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }),
       });
-      this.initializeCalendar(date); // 重新初始化日历
+      this.initializeCalendar(date, this.data.previousDays); // 重新初始化日历
     }
   },
 
@@ -98,7 +121,7 @@ Page({
       this.setData({
         currentDate: date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }),
       });
-      this.initializeCalendar(date); // 重新初始化日历
+      this.initializeCalendar(date, this.data.previousDays); // 重新初始化日历
     }
   }
 });
