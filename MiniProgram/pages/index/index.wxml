@@ -1,13 +1,16 @@
 <!--index.wxml-->
-<navigation-bar title="Weixin" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<navigation-bar title="打卡了么" back="{{false}}" color="black" background="#FFF"></navigation-bar>
 <scroll-view class="scrollarea" scroll-y type="list">
   <view class="container">
     <view class="header">
+      <view class="total-days">全部打卡天数: {{allCheckedDays}}</view>
       <view class="total-days">本月打卡天数: {{totalDays}}</view>
       <view class="spacer"></view>
-      <view class="arrow" bindtap="prevMonth">←</view>
-      <view class="current-date">{{currentDate}}</view>
-      <view class="arrow" bindtap="nextMonth">→</view>
+      <view class="date-arrows">
+        <view class="arrow-left" bindtap="prevMonth">←</view>
+        <view class="current-date">{{currentDate}}</view>
+        <view class="arrow-right" bindtap="nextMonth">→</view>
+      </view>
     </view>
     <view class="calendar">
       <view class="weekdays">

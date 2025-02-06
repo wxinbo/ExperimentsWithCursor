@@ -6,7 +6,8 @@ Page({
     currentInput: '',
     currentDate: '',
     totalDays: 0,
-    previousDays: []
+    previousDays: [],
+    allCheckedDays: 0
   },
 
   onLoad: function() {
@@ -50,7 +51,9 @@ Page({
     this.setData({ days });
     this.updateTotalDays();
     this.updatePreviousDays();
+    this.updateAllCheckedDays();
   },
+
 
 
   setCurrentDate: function() {
@@ -73,28 +76,40 @@ Page({
     this.setData({ days });
     this.updateTotalDays();
     this.updatePreviousDays();
+    this.updateAllCheckedDays();
   },
 
+  updateAllCheckedDays: function() {
+    const allCheckedDays = this.data.previousDays.filter(day => day.selected).length;
+    this.setData({ allCheckedDays });
+  },
 
   updateTotalDays: function() {
     const totalDays = this.data.days.filter(day => day.selected).length;
     this.setData({ totalDays });
   },
+
   updatePreviousDays: function() {
     const previousDays = this.data.previousDays;
     this.setData({previousDays})
   },
+
   onInput: function(event) {
     this.setData({ currentInput: event.detail.value });
   },
 
 
+
   addMark: function() {
     if (this.data.currentInput) {
       const selectedDate = this.data.days.find(day => day.selected);
+      console.log("selectedDate");
+      console.log(selectedDate);
       if (selectedDate) {
         this.setData({
-          marks: [...this.data.marks, { date: selectedDate.date, text: this.data.currentInput }],
+          marks: this.data.marks.map(mark => 
+            mark.date === selectedDate.date ? { ...mark, text: this.data.currentInput } : mark
+          ),
           currentInput: ''
         });
       }

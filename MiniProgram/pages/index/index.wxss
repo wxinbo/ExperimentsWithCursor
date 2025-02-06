@@ -25,7 +25,9 @@ page {
   justify-content: space-between; /* 使每个星期几均匀分布 */
   margin-top: 0px; /* 减小上边距 */
   flex-wrap: nowrap; /* 不换行 */
+  margin-top: 10px; /* 可选：设置底部间距 */
 }
+
 
 .weekday {
   width: 40px; /* 设置为 1/7 的宽度 */
@@ -81,19 +83,22 @@ page {
 }
 .header {
   display: flex;
+  flex-direction: column; /* 确保子元素垂直排列 */
   align-items: center; /* 垂直居中 */
   justify-content: center; /* 水平居中 */
-  margin-bottom: 20px;
+  margin-bottom: 20px; /* 底部间距 */
 }
 .current-date {
   font-size: 18px;
   /*font-weight: bold;*/ /* 可选：取消加粗 */
-  width: 100px; /* 设置宽度以保持一致 */
+  width: 140px; /* 设置宽度以保持一致 */
   text-align: center; /* 水平居中 */
 }
 .total-days {
   font-size: 16px;
   color: #555;
+  margin-bottom: 20px;
+  margin-top: 10px;
 }
 .clear {
   width: 100%; /* 使换行占据整行 */
@@ -104,16 +109,31 @@ page {
   border: 1px solid transparent; /* 使用虚线边框以区分 */
 }
 .spacer {
-  height: 10px; /* 设置空行的高度 */
+  height: 100%; /* 设置空行的高度 */
 }
 .marks-preview {
   margin-top: 5px; /* 上边距 */
   text-align: center; /* 居中显示 */
 }
-.arrow {
+.arrow-left {
   cursor: pointer; /* 鼠标指针 */
   font-size: 24px; /* 字体大小 */
-  margin: 0 10px; /* 左右间距 */
-  width: 40px; /* 设置宽度 */
-  text-align: center; /* 水平居中 */
+  margin: 0px 60px; /* 左右间距 */
+  width: 30px; /* 设置宽度 */
+}
+
+.arrow-right {
+  cursor: pointer; /* 鼠标指针 */
+  font-size: 24px; /* 字体大小 */
+  width: 30px; /* 设置宽度 */
+  margin: 0px 50px; /* 左右间距 */
+}
+
+.date-arrows {
+  width: 100%; /* 占满整行 */
+  display: flex; /* 使用 Flexbox 布局 */
+  align-items: center; /* 垂直居中 */
+  justify-content: space-between; /* 在主轴上均匀分布项目 */
+  margin-top: 10px; /* 可选：设置顶部间距 */
+  margin-bottom: 10px; /* 可选：设置底部间距 */
 }
