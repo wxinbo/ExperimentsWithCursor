@@ -101,18 +101,42 @@ Page({
 
 
   addMark: function() {
-    if (this.data.currentInput) {
-      const selectedDate = this.data.days.find(day => day.selected);
-      console.log("selectedDate");
-      console.log(selectedDate);
-      if (selectedDate) {
-        this.setData({
-          marks: this.data.marks.map(mark => 
-            mark.date === selectedDate.date ? { ...mark, text: this.data.currentInput } : mark
-          ),
-          currentInput: ''
-        });
-      }
+    const selectedDate = this.data.days.find(day => day.selected); // Find the last selected date
+    console.log("selectedDate");
+    console.log(selectedDate);
+    
+    if (selectedDate) {
+      wx.showModal({
+        title: '添加标记',
+        content: '',
+        editable: true, // Allow the user to input text
+        placeholderText: '请输入打卡内容', // Placeholder text
+        success: (res) => {
+          if (res.confirm) {
+            const inputContent = res.content; // Get the input content
+            if (inputContent) {
+              // Update the marks array
+              const updatedMarks = this.data.marks.map(mark => 
+                mark.date === selectedDate.date ? { ...mark, text: inputContent } : mark
+              );
+
+              // If no mark was found for the selected date, add a new mark
+              if (!updatedMarks.some(mark => mark.date === selectedDate.date)) {
+                updatedMarks.push({ date: selectedDate.date, text: inputContent }); // Add new mark for the selected date
+              }
+
+              this.setData({
+                marks: updatedMarks // Update the marks array
+              });
+            }
+          }
+        }
+      });
+    } else {
+      wx.showToast({
+        title: '请先选择一个日期',
+        icon: 'none'
+      });
     }
   },
 
