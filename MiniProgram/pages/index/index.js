@@ -64,18 +64,21 @@ Page({
   selectDay: function(event) {
     const date = event.currentTarget.dataset.date;
     const days = this.data.days.map(day => {
-      if (day.date === date) {
-        day.selected = !day.selected;
+      if (day.date === date) 
+      {
+        day.selected = true; 
         this.data.previousDays.push(day);
         console.log("previousDays");
         console.log(this.data.previousDays);
       }
+
       return day;
     });
     this.setData({ days });
     this.updateTotalDays();
     this.updatePreviousDays();
     this.updateAllCheckedDays();
+
     this.updateLastDays();
     console.log("lastDays");
     console.log(this.data.lastDays);
@@ -128,9 +131,21 @@ Page({
             const inputContent = res.content; // Get the input content
             if (inputContent) {
               // Update the marks array
-              updatedMarks.push({date: selectedDate.date, text: inputContent} )
+              updatedMarks.push({ date: selectedDate.date, text: inputContent });
               this.setData({
                 marks: updatedMarks // Update the marks array
+              });
+
+              // Update the days array to change the background color of the selected date
+              const updatedDays = this.data.days.map(day => {
+                if (day.date === selectedDate.date) {
+                  day.color = 'green'; // Change the background color to green
+                }
+                return day; // Return the updated day
+              });
+
+              this.setData({
+                days: updatedDays // Update the days array
               });
             }
           }

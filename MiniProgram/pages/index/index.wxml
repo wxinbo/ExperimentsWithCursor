@@ -19,8 +19,12 @@
         </block>
       </view>
       <block wx:for="{{days}}" wx:key="index">
-        <view class="day {{item.selected ? 'selected' : ''}} {{item.date === '' ? 'transparent' : ''}}" bindtap="selectDay" data-date="{{item.date}}">
+        <view class="day {{item.selected ? 'selected' : ''}} {{item.date === '' ? 'transparent' : ''}}" 
+              bindtap="selectDay" 
+              data-date="{{item.date}}"
+              style="background-color: {{item.color}};">
           {{item.showDate}}
+          <view wx:if="{{hasMarkForDate(item.date)}}" class="mark-dot"></view>
         </view>
 
         <block wx:if="{{(index + 1) % 7 === 0}}">
