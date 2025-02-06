@@ -35,7 +35,6 @@
         </block>
       </block>
     </view>
-    <input class="input" placeholder="添加标记" bindinput="onInput" />
     <button class="add-button" bindtap="addMark">添加标记</button>
     <view class="marks">
       <block wx:for="{{marks}}" wx:key="index">
